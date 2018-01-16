@@ -40,6 +40,19 @@ class ChecklistViewController: UITableViewController {
       cell.accessoryType = .none
     }
   }
+  
+  @IBAction func addItem() {
+    let newRowIndex = items.count
+    let item = ChecklistItem()
+    item.text = "Another item"
+    item.checked = false
+    
+    items.append(item)
+    
+    let indexPath = IndexPath(row: newRowIndex, section: 0)
+    let indexPaths = [indexPath]
+    tableView.insertRows(at: indexPaths, with: .automatic)
+  }
 }
 
 // MARK: - TableView Data Source methods
