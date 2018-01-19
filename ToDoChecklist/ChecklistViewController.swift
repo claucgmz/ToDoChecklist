@@ -23,7 +23,7 @@ class ChecklistViewController: UITableViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    // Do any additional setup after loading the view, typically from a nib.
+    tableView.register(UINib(nibName: "ChecklistItemCell", bundle: nil), forCellReuseIdentifier: "ChecklistItemCell")
   }
   
   override func didReceiveMemoryWarning() {
@@ -32,12 +32,12 @@ class ChecklistViewController: UITableViewController {
   }
   
   // MARK: - Private methods
-  private func configureCheckmark(for cell: UITableViewCell, with item: ChecklistItem) {
+  private func configureCheckmark(for cell: ChecklistItemCell, with item: ChecklistItem) {
     if item.checked {
-      cell.accessoryType = .checkmark
+      cell.checkmarkLabel.text = "✔️"
     }
     else {
-      cell.accessoryType = .none
+      cell.checkmarkLabel.text = ""
     }
   }
   
@@ -65,10 +65,16 @@ extension ChecklistViewController {
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "ChecklistItem", for: indexPath)
+    let cell = tableView.dequeueReusableCell(withIdentifier: "ChecklistItemCell") as? ChecklistItemCell
     let item = items[indexPath.row]
-    configureCheckmark(for: cell, with: item)
-    return cell
+    
+    if let checklistCell = cell {
+      configureCheckmark(for: checklistCell, with: item)
+      cell?.itemNameLabel.text = item.text
+      return checklistCell
+    }
+    
+    return cell!
   }
   
   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
@@ -88,7 +94,7 @@ extension ChecklistViewController {
     let item = items [indexPath.row]
     item.toogleCheckmark()
     
-    configureCheckmark(for: cell, with: item)
+    configureCheckmark(for: (cell as? ChecklistItemCell)!, with: item)
     tableView.deselectRow(at: indexPath, animated: true)
   }
 }
