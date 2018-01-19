@@ -41,17 +41,20 @@ class ChecklistViewController: UITableViewController {
     }
   }
   
-  @IBAction private func addItem() {
+  private func addItem(_ item: ChecklistItem) {
     let newRowIndex = items.count
-    let item = ChecklistItem()
-    item.text = "Another item"
-    item.checked = false
-    
     items.append(item)
     
     let indexPath = IndexPath(row: newRowIndex, section: 0)
     let indexPaths = [indexPath]
     tableView.insertRows(at: indexPaths, with: .automatic)
+  }
+  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if segue.identifier == "AddItem" {
+      let controller = segue.destination as! AddItemViewController
+      controller.delegate = self
+    }
   }
 }
 
@@ -88,4 +91,15 @@ extension ChecklistViewController {
     configureCheckmark(for: cell, with: item)
     tableView.deselectRow(at: indexPath, animated: true)
   }
+}
+
+extension ChecklistViewController: AddItemViewControllerDelegate {
+  func addItemViewControllerDidCancel(_ controller: AddItemViewController) {
+    navigationController?.popViewController(animated:true)
+  }
+  
+  func addItemViewController(_ controller: AddItemViewController, didFinishAdding item: ChecklistItem) {
+    addItem(item)
+    navigationController?.popViewController(animated:true)
+  }  
 }
