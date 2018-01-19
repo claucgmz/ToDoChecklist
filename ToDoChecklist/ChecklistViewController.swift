@@ -41,7 +41,7 @@ class ChecklistViewController: UITableViewController {
     }
   }
   
-  @IBAction func addItem() {
+  @IBAction private func addItem() {
     let newRowIndex = items.count
     let item = ChecklistItem()
     item.text = "Another item"
