@@ -50,9 +50,18 @@ class ChecklistViewController: UITableViewController {
     tableView.insertRows(at: indexPaths, with: .automatic)
   }
   
+  private func editItem(_ item: ChecklistItem) {
+    if let index = items.index(of: item) {
+      let indexPath = IndexPath(row: index, section: 0)
+      if let cell = tableView.cellForRow(at: indexPath) as? ChecklistItemCell {
+        cell.itemNameLabel.text = item.text
+      }
+    }
+  }
+  
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if segue.identifier == "AddItem" {
-      let controller = segue.destination as! AddItemViewController
+      let controller = segue.destination as! ItemDetailViewController
       controller.delegate = self
     }
   }
@@ -97,15 +106,29 @@ extension ChecklistViewController {
     configureCheckmark(for: (cell as? ChecklistItemCell)!, with: item)
     tableView.deselectRow(at: indexPath, animated: true)
   }
+  
+  override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+    if let editItemVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ItemDetailVC") as? ItemDetailViewController {
+      editItemVC.delegate = self
+      editItemVC.itemToEdit = items[indexPath.row]
+      navigationController?.pushViewController(editItemVC, animated: true)
+    }
+  }
 }
 
-extension ChecklistViewController: AddItemViewControllerDelegate {
-  func addItemViewControllerDidCancel(_ controller: AddItemViewController) {
+extension ChecklistViewController: ItemDetailViewControllerDelegate {
+  func itemDetailViewControllerDidCancel(_ controller: ItemDetailViewController) {
     navigationController?.popViewController(animated:true)
   }
   
-  func addItemViewController(_ controller: AddItemViewController, didFinishAdding item: ChecklistItem) {
+  func itemDetailViewController(_ controller: ItemDetailViewController, didFinishAdding item: ChecklistItem) {
     addItem(item)
     navigationController?.popViewController(animated:true)
-  }  
+  }
+  
+  func itemDetailViewController(_ controller: ItemDetailViewController, didFinishEditing item: ChecklistItem) {
+    editItem(item)
+    navigationController?.popViewController(animated: true)
+  }
 }
+
