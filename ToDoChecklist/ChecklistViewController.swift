@@ -11,16 +11,10 @@ import UIKit
 class ChecklistViewController: UITableViewController {
   private var items = [ChecklistItem]()
   
-  required init?(coder aDecoder: NSCoder) {
-    super.init(coder: aDecoder)
-    
-    print("Documents folder is \(documentsDirectory())")
-    print("Data file path is \(dataFilePath())")
-  }
-  
   override func viewDidLoad() {
     super.viewDidLoad()
     tableView.register(UINib(nibName: "ChecklistItemCell", bundle: nil), forCellReuseIdentifier: "ChecklistItemCell")
+    loadChecklistItems()
   }
   
   override func didReceiveMemoryWarning() {
@@ -63,6 +57,20 @@ class ChecklistViewController: UITableViewController {
     }
   }
   
+  private func loadChecklistItems() {
+    let path = dataFilePath()
+    
+    if let data = try? Data(contentsOf: path) {
+      let decoder = PropertyListDecoder()
+      do {
+        items = try decoder.decode([ChecklistItem].self, from: data)
+      }
+      catch {
+        print("Error decoding array")
+      }
+    }
+  }
+  
   private func saveChecklistItems() {
     let encoder = PropertyListEncoder()
     do {
@@ -71,7 +79,7 @@ class ChecklistViewController: UITableViewController {
                      options: Data.WritingOptions.atomic)
     }
     catch {
-      print("Error")
+      print("Error encoding items")
     }
   }
   
