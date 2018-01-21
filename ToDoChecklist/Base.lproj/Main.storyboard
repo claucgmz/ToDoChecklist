@@ -17,22 +17,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="zkh-L7-kim">
-                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zkh-L7-kim" id="JbQ-Bm-u33">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="zX5-Lh-QSC" id="0ew-qm-AKk"/>
                             <outlet property="delegate" destination="zX5-Lh-QSC" id="g6M-7T-ZHr"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Checklist" id="85C-Gb-3aM"/>
+                    <navigationItem key="navigationItem" title="Checklist" leftItemsSupplementBackButton="YES" id="85C-Gb-3aM">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="hU3-i3-UTY"/>
+                    </navigationItem>
                     <connections>
                         <segue destination="VQF-e5-7Vw" kind="show" identifier="ShowChecklist" id="9ai-Fi-Gup"/>
                     </connections>
