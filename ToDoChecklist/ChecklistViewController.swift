@@ -17,9 +17,11 @@ class ChecklistViewController: UITableViewController {
     loadChecklistItems()
   }
   
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if segue.identifier == "AddItem" {
+      let controller = segue.destination as! ItemDetailViewController
+      controller.delegate = self
+    }
   }
   
   // MARK: - Private methods
@@ -29,13 +31,6 @@ class ChecklistViewController: UITableViewController {
     }
     else {
       cell.checkmarkLabel.text = ""
-    }
-  }
-  
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if segue.identifier == "AddItem" {
-      let controller = segue.destination as! ItemDetailViewController
-      controller.delegate = self
     }
   }
   
@@ -127,7 +122,7 @@ extension ChecklistViewController {
     guard let cell = tableView.cellForRow(at: indexPath) else {
       return
     }
-    let item = items [indexPath.row]
+    let item = items[indexPath.row]
     item.toogleCheckmark()
     configureCheckmark(for: (cell as? ChecklistItemCell)!, with: item)
     tableView.deselectRow(at: indexPath, animated: true)
