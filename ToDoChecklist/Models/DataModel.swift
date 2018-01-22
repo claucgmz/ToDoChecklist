@@ -25,15 +25,6 @@ class DataModel {
     handleFirstTime()
   }
   
-  private func documentsDirectory() -> URL {
-    let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-    return paths[0]
-  }
-  
-  private func dataFilePath() -> URL {
-    return documentsDirectory().appendingPathComponent("Checklist.plist")
-  }
-  
   func saveChecklists() {
     let encoder = PropertyListEncoder()
     do {
@@ -42,6 +33,21 @@ class DataModel {
     } catch {
       print("Error encoding item array!")
     }
+  }
+  
+  func sortChecklists() {
+    lists.sort(by: { checklistA, checklistB in
+      return checklistA.name.localizedCompare(checklistB.name) == .orderedAscending
+    })
+  }
+  
+  private func documentsDirectory() -> URL {
+    let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+    return paths[0]
+  }
+  
+  private func dataFilePath() -> URL {
+    return documentsDirectory().appendingPathComponent("Checklist.plist")
   }
   
   private func registerDefaults() {
@@ -55,6 +61,7 @@ class DataModel {
       let decoder = PropertyListDecoder()
       do {
         lists = try decoder.decode([Checklist].self, from: data)
+        sortChecklists()
       } catch {
         print("Error decoding item array!")
       }

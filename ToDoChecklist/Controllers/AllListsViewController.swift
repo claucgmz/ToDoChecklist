@@ -16,6 +16,11 @@ class AllListsViewController: UITableViewController {
     tableView.register(UINib(nibName: "ChecklistCell", bundle: nil), forCellReuseIdentifier: "ChecklistCell")
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    tableView.reloadData()
+  }
+  
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     navigationController?.delegate = self
@@ -43,6 +48,18 @@ extension AllListsViewController {
     
     if let checklistCell = cell {
       checklistCell.textLabel?.text = checklist?.name
+      let totalItemsUnchecked = checklist?.countUncheckedItems()
+      
+      if checklist?.items.count == 0 {
+        checklistCell.detailTextLabel?.text = "No items"
+      }
+      else if totalItemsUnchecked == 0 {
+        checklistCell.detailTextLabel?.text = "All Done!"
+      }
+      else {
+        checklistCell.detailTextLabel?.text = "\(totalItemsUnchecked ?? 0 ) unchecked"
+      }
+      
       return checklistCell
     }
     
@@ -82,23 +99,17 @@ extension AllListsViewController {
   
   // MARK: - Private methods
   private func addChecklist(_ checklist: Checklist) {
-    let newRowIndex = dataModel?.lists.count
     dataModel?.lists.append(checklist)
-    guard let index = newRowIndex else {
-      return
-    }
-    let indexPath = IndexPath(row: index, section: 0)
-    let indexPaths = [indexPath]
-    tableView.insertRows(at: indexPaths, with: .automatic)
+    reloadTable()
   }
   
   private func editChecklist(_ checklist: Checklist) {
-    if let index = dataModel?.lists.index(of: checklist) {
-      let indexPath = IndexPath(row: index, section: 0)
-      if let cell = tableView.cellForRow(at: indexPath) as? ChecklistCell {
-        cell.textLabel?.text = checklist.name
-      }
-    }
+    reloadTable()
+  }
+  
+  private func reloadTable() {
+    dataModel?.sortChecklists()
+    tableView.reloadData()
   }
 }
 
