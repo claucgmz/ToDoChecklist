@@ -13,10 +13,14 @@ class AllListsViewController: UITableViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    tableView.register(UINib(nibName: "ChecklistItemCell", bundle: nil), forCellReuseIdentifier: "ChecklistItemCell")
+    tableView.register(UINib(nibName: "ChecklistCell", bundle: nil), forCellReuseIdentifier: "ChecklistCell")
     let checklist = Checklist()
     checklist.name = "Checklist 1"
     lists.append(checklist)
+    
+    let checklist2 = Checklist()
+    checklist2.name = "Checklist 2"
+    lists.append(checklist2)
   }
 }
 
@@ -27,15 +31,27 @@ extension AllListsViewController {
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "ChecklistItemCell") as? ChecklistItemCell
+    let cell = tableView.dequeueReusableCell(withIdentifier: "ChecklistCell") as? ChecklistCell
     let checklist = lists[indexPath.row]
     
     if let checklistCell = cell {
-      checklistCell.itemNameLabel.text = checklist.name
+      checklistCell.textLabel?.text = checklist.name
       return checklistCell
     }
     
     return cell!
+  }
+  
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    let checklist = lists[indexPath.row]
+    performSegue(withIdentifier: "ShowChecklist", sender: checklist)
+  }
+  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if segue.identifier == "ShowChecklist" {
+      let controller = segue.destination as! ChecklistViewController
+      controller.checklist = (sender as! Checklist)
+    }
   }
 }
 

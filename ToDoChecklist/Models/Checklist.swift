@@ -10,5 +10,5 @@ import Foundation
 
 class Checklist: NSObject {
   var name = ""
-  var lists = [ChecklistItem]()
+  var list = [ChecklistItem]()
 }

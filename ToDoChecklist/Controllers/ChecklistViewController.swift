@@ -10,9 +10,11 @@ import UIKit
 
 class ChecklistViewController: UITableViewController {
   private var items = [ChecklistItem]()
+  var checklist: Checklist?
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    title = checklist?.name
     tableView.register(UINib(nibName: "ChecklistItemCell", bundle: nil), forCellReuseIdentifier: "ChecklistItemCell")
     loadChecklistItems()
   }
