@@ -15,7 +15,6 @@ class ChecklistViewController: UITableViewController {
     super.viewDidLoad()
     title = checklist?.name
     tableView.register(UINib(nibName: "ChecklistItemCell", bundle: nil), forCellReuseIdentifier: "ChecklistItemCell")
-    loadChecklistItems()
   }
   
   override func didReceiveMemoryWarning() {
@@ -44,7 +43,10 @@ class ChecklistViewController: UITableViewController {
     let newRowIndex = checklist?.items.count
     checklist?.items.append(item)
     
-    let indexPath = IndexPath(row: newRowIndex!, section: 0)
+    guard let index = newRowIndex else {
+      return
+    }
+    let indexPath = IndexPath(row: index, section: 0)
     let indexPaths = [indexPath]
     tableView.insertRows(at: indexPaths, with: .automatic)
   }
@@ -57,54 +59,19 @@ class ChecklistViewController: UITableViewController {
       }
     }
   }
-  
-  private func loadChecklistItems() {
-    let path = dataFilePath()
-    
-    if let data = try? Data(contentsOf: path) {
-      let decoder = PropertyListDecoder()
-      do {
-        checklist?.items = try decoder.decode([ChecklistItem].self, from: data)
-      }
-      catch {
-        print("Error decoding array")
-      }
-    }
-  }
-  
-  private func saveChecklistItems() {
-    let encoder = PropertyListEncoder()
-    do {
-      let data = try encoder.encode(checklist?.items)
-      try data.write(to: dataFilePath(),
-                     options: Data.WritingOptions.atomic)
-    }
-    catch {
-      print("Error encoding items")
-    }
-  }
-  
-  private func documentsDirectory() -> URL {
-    let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-    return paths[0]
-  }
-  
-  private func dataFilePath() -> URL {
-    return documentsDirectory().appendingPathComponent("Checklists.plist")
-  }
 }
 
 // MARK: - TableView Data Source methods
 extension ChecklistViewController {
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return checklist!.items.count
+    return checklist?.items.count ?? 0
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "ChecklistItemCell") as? ChecklistItemCell
     let item = checklist?.items[indexPath.row]
     
-    if let checklistCell = cell {
+    if let checklistCell = cell, let item = item {
       configureCheckmark(for: checklistCell, with: item)
       checklistCell.itemNameLabel.text = item.text
       return checklistCell
@@ -118,7 +85,6 @@ extension ChecklistViewController {
     
     let indexPaths = [indexPath]
     tableView.deleteRows(at: indexPaths, with: .automatic)
-    saveChecklistItems()
   }
 }
 
@@ -128,11 +94,12 @@ extension ChecklistViewController {
     guard let cell = tableView.cellForRow(at: indexPath) else {
       return
     }
-    let item = checklist?.items[indexPath.row]
-    item.toogleCheckmark()
-    configureCheckmark(for: (cell as? ChecklistItemCell)!, with: item)
-    tableView.deselectRow(at: indexPath, animated: true)
-    saveChecklistItems()
+    
+    if let item = checklist?.items[indexPath.row] {
+      item.toogleCheckmark()
+      configureCheckmark(for: (cell as? ChecklistItemCell)!, with: item)
+      tableView.deselectRow(at: indexPath, animated: true)
+    }
   }
   
   override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
@@ -152,12 +119,10 @@ extension ChecklistViewController: ItemDetailViewControllerDelegate {
   func itemDetailViewController(_ controller: ItemDetailViewController, didFinishAdding item: ChecklistItem) {
     addItem(item)
     navigationController?.popViewController(animated:true)
-    saveChecklistItems()
   }
   
   func itemDetailViewController(_ controller: ItemDetailViewController, didFinishEditing item: ChecklistItem) {
     editItem(item)
     navigationController?.popViewController(animated: true)
-    saveChecklistItems()
   }
 }
