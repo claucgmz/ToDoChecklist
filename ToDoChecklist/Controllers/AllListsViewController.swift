@@ -15,7 +15,20 @@ class AllListsViewController: UITableViewController {
     super.viewDidLoad()
     tableView.register(UINib(nibName: "ChecklistCell", bundle: nil), forCellReuseIdentifier: "ChecklistCell")
   }
-
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    navigationController?.delegate = self
+    guard let index = dataModel?.indexOfSelectedChecklist, index > -1, let totalList = dataModel?.lists.count else {
+      return
+    }
+    
+    if  totalList > index {
+      let checklist = dataModel?.lists[index]
+      performSegue(withIdentifier: "ShowChecklist", sender: checklist)
+    }
+    
+  }
 }
 
 // MARK: - TableView Data Source methods
@@ -37,6 +50,7 @@ extension AllListsViewController {
   }
   
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    dataModel?.indexOfSelectedChecklist = indexPath.row
     let checklist = dataModel?.lists[indexPath.row]
     performSegue(withIdentifier: "ShowChecklist", sender: checklist)
   }
@@ -112,5 +126,14 @@ extension AllListsViewController: ListDetailViewControllerDelegate {
   func listDetailViewController(_ controller: ListDetailViewController, didFinishEditing checklist: Checklist) {
     editChecklist(checklist)
     navigationController?.popViewController(animated:true)
+  }
+}
+
+// MARK: - UINavigationControllerDelegate methods
+extension AllListsViewController: UINavigationControllerDelegate {
+  func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+    if viewController === self {
+      dataModel?.indexOfSelectedChecklist = -1
+    }
   }
 }
