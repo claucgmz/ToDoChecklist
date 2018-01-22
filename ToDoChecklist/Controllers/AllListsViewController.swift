@@ -47,10 +47,47 @@ extension AllListsViewController {
     performSegue(withIdentifier: "ShowChecklist", sender: checklist)
   }
   
+  override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+    guard let cell = tableView.cellForRow(at: indexPath) else {
+      return
+    }
+    performSegue(withIdentifier: "EditChecklist", sender: cell)
+  }
+  
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if segue.identifier == "ShowChecklist" {
       let controller = segue.destination as! ChecklistViewController
       controller.checklist = (sender as! Checklist)
+    }
+    else if segue.identifier == "AddChecklist" {
+      let controller = segue.destination as! ListDetailViewController
+      controller.delegate = self
+    }
+    else if segue.identifier == "EditChecklist" {
+      let controller = segue.destination as! ListDetailViewController
+      controller.delegate = self
+      if let indexPath = tableView.indexPath(for: sender as! ChecklistCell) {
+        controller.checklistToEdit = lists[indexPath.row]
+      }
+    }
+  }
+  
+  // MARK: - Private methods
+  private func addChecklist(_ checklist: Checklist) {
+    let newRowIndex = lists.count
+    lists.append(checklist)
+    
+    let indexPath = IndexPath(row: newRowIndex, section: 0)
+    let indexPaths = [indexPath]
+    tableView.insertRows(at: indexPaths, with: .automatic)
+  }
+  
+  private func editChecklist(_ checklist: Checklist) {
+    if let index = lists.index(of: checklist) {
+      let indexPath = IndexPath(row: index, section: 0)
+      if let cell = tableView.cellForRow(at: indexPath) as? ChecklistCell {
+        cell.textLabel?.text = checklist.name
+      }
     }
   }
 }
@@ -62,5 +99,22 @@ extension AllListsViewController {
     
     let indexPaths = [indexPath]
     tableView.deleteRows(at: indexPaths, with: .automatic)
+  }
+}
+
+// MARK: - ListDetailViewControllerDelegate methods
+extension AllListsViewController: ListDetailViewControllerDelegate {
+  func listDetailViewControllerDidCancel(_ controller: ListDetailViewController) {
+    navigationController?.popViewController(animated:true)
+  }
+  
+  func listDetailViewController(_ controller: ListDetailViewController, didFinishAdding checklist: Checklist) {
+    addChecklist(checklist)
+    navigationController?.popViewController(animated:true)
+  }
+  
+  func listDetailViewController(_ controller: ListDetailViewController, didFinishEditing checklist: Checklist) {
+    editChecklist(checklist)
+    navigationController?.popViewController(animated:true)
   }
 }
