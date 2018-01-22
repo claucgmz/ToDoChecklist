@@ -74,12 +74,10 @@
 		5F14CD44200E63A600873E48 /* ToDoChecklist */ = {
 			isa = PBXGroup;
 			children = (
+				5F610DE720163B3E00560F41 /* Resources */,
 				5F14CD45200E63A600873E48 /* AppDelegate.swift */,
-				5F14CD4C200E63A700873E48 /* Assets.xcassets */,
 				5F31388C201444FE00D85E9C /* Controllers */,
 				5F14CD51200E63A700873E48 /* Info.plist */,
-				5F14CD4E200E63A700873E48 /* LaunchScreen.storyboard */,
-				5F14CD49200E63A600873E48 /* Main.storyboard */,
 				5F31388A201444DA00D85E9C /* Models */,
 				5F31388B201444ED00D85E9C /* Views */,
 			);
@@ -116,6 +114,16 @@
 				5F7B428720158DEA00A9842E /* ListDetailViewController.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		5F610DE720163B3E00560F41 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5F14CD4C200E63A700873E48 /* Assets.xcassets */,
+				5F14CD4E200E63A700873E48 /* LaunchScreen.storyboard */,
+				5F14CD49200E63A600873E48 /* Main.storyboard */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
