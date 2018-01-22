@@ -9,7 +9,6 @@
 import UIKit
 
 class ChecklistViewController: UITableViewController {
-  private var items = [ChecklistItem]()
   var checklist: Checklist?
   
   override func viewDidLoad() {
@@ -42,16 +41,16 @@ class ChecklistViewController: UITableViewController {
   }
   
   private func addItem(_ item: ChecklistItem) {
-    let newRowIndex = items.count
-    items.append(item)
+    let newRowIndex = checklist?.items.count
+    checklist?.items.append(item)
     
-    let indexPath = IndexPath(row: newRowIndex, section: 0)
+    let indexPath = IndexPath(row: newRowIndex!, section: 0)
     let indexPaths = [indexPath]
     tableView.insertRows(at: indexPaths, with: .automatic)
   }
   
   private func editItem(_ item: ChecklistItem) {
-    if let index = items.index(of: item) {
+    if let index = checklist?.items.index(of: item) {
       let indexPath = IndexPath(row: index, section: 0)
       if let cell = tableView.cellForRow(at: indexPath) as? ChecklistItemCell {
         cell.itemNameLabel.text = item.text
@@ -65,7 +64,7 @@ class ChecklistViewController: UITableViewController {
     if let data = try? Data(contentsOf: path) {
       let decoder = PropertyListDecoder()
       do {
-        items = try decoder.decode([ChecklistItem].self, from: data)
+        checklist?.items = try decoder.decode([ChecklistItem].self, from: data)
       }
       catch {
         print("Error decoding array")
@@ -76,7 +75,7 @@ class ChecklistViewController: UITableViewController {
   private func saveChecklistItems() {
     let encoder = PropertyListEncoder()
     do {
-      let data = try encoder.encode(items)
+      let data = try encoder.encode(checklist?.items)
       try data.write(to: dataFilePath(),
                      options: Data.WritingOptions.atomic)
     }
@@ -98,12 +97,12 @@ class ChecklistViewController: UITableViewController {
 // MARK: - TableView Data Source methods
 extension ChecklistViewController {
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return items.count
+    return checklist!.items.count
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "ChecklistItemCell") as? ChecklistItemCell
-    let item = items[indexPath.row]
+    let item = checklist?.items[indexPath.row]
     
     if let checklistCell = cell {
       configureCheckmark(for: checklistCell, with: item)
@@ -115,7 +114,7 @@ extension ChecklistViewController {
   }
   
   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-    items.remove(at: indexPath.row)
+    checklist?.items.remove(at: indexPath.row)
     
     let indexPaths = [indexPath]
     tableView.deleteRows(at: indexPaths, with: .automatic)
@@ -129,7 +128,7 @@ extension ChecklistViewController {
     guard let cell = tableView.cellForRow(at: indexPath) else {
       return
     }
-    let item = items [indexPath.row]
+    let item = checklist?.items[indexPath.row]
     item.toogleCheckmark()
     configureCheckmark(for: (cell as? ChecklistItemCell)!, with: item)
     tableView.deselectRow(at: indexPath, animated: true)
@@ -139,7 +138,7 @@ extension ChecklistViewController {
   override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
     if let editItemVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ItemDetailVC") as? ItemDetailViewController {
       editItemVC.delegate = self
-      editItemVC.itemToEdit = items[indexPath.row]
+      editItemVC.itemToEdit = checklist?.items[indexPath.row]
       navigationController?.pushViewController(editItemVC, animated: true)
     }
   }
