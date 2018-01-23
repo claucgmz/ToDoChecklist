@@ -9,8 +9,16 @@
 import Foundation
 
 class ChecklistItem: NSObject, Codable {
+  var itemID: Int
   var text = ""
   var checked = false
+  var dueDate = Date()
+  var shouldRemind = false
+  
+  override init() {
+    itemID = DataModel.nextChecklistItemId()
+    super.init()
+  }
   
   func toogleCheckmark() {
     self.checked = !checked

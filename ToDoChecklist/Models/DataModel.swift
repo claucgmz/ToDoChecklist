@@ -41,6 +41,14 @@ class DataModel {
     })
   }
   
+  class func nextChecklistItemId() -> Int {
+    let userDefaults = UserDefaults.standard
+    let itemID = userDefaults.integer(forKey: "ChecklistItemID")
+    userDefaults.set(itemID + 1, forKey: "ChecklistItemID")
+    userDefaults.synchronize()
+    return itemID
+  }
+  
   private func documentsDirectory() -> URL {
     let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
     return paths[0]
