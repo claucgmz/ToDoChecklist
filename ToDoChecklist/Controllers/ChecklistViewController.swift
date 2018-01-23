@@ -74,6 +74,7 @@ extension ChecklistViewController {
     if let checklistCell = cell, let item = item {
       configureCheckmark(for: checklistCell, with: item)
       checklistCell.itemNameLabel.text = item.text
+      checklistCell.checkmarkLabel.textColor = view.tintColor
       return checklistCell
     }
     
