@@ -16,10 +16,12 @@
 		5F3138872013E5A200D85E9C /* ItemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3138862013E5A200D85E9C /* ItemDetailViewController.swift */; };
 		5F313889201437BB00D85E9C /* AllListsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F313888201437BB00D85E9C /* AllListsViewController.swift */; };
 		5F31388E2014479200D85E9C /* Checklist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F31388D2014479200D85E9C /* Checklist.swift */; };
-		5F313891201464FC00D85E9C /* ChecklistCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F31388F201464FC00D85E9C /* ChecklistCell.swift */; };
 		5F313892201464FC00D85E9C /* ChecklistCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F313890201464FC00D85E9C /* ChecklistCell.xib */; };
 		5F5292DF2011B0EB0049AD7A /* ChecklistItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5292DD2011B0EB0049AD7A /* ChecklistItemCell.swift */; };
 		5F5292E02011B0EB0049AD7A /* ChecklistItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F5292DE2011B0EB0049AD7A /* ChecklistItemCell.xib */; };
+		5F610DE9201660D000560F41 /* IconPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F610DE8201660D000560F41 /* IconPickerViewController.swift */; };
+		5F610DEC20166E1300560F41 /* IconCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F610DEA20166E1300560F41 /* IconCell.swift */; };
+		5F610DED20166E1300560F41 /* IconCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F610DEB20166E1300560F41 /* IconCell.xib */; };
 		5F7B428820158DEA00A9842E /* ListDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7B428720158DEA00A9842E /* ListDetailViewController.swift */; };
 		5F7B428A2015CB0400A9842E /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7B42892015CB0400A9842E /* DataModel.swift */; };
 /* End PBXBuildFile section */
@@ -36,10 +38,12 @@
 		5F3138862013E5A200D85E9C /* ItemDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailViewController.swift; sourceTree = "<group>"; };
 		5F313888201437BB00D85E9C /* AllListsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllListsViewController.swift; sourceTree = "<group>"; };
 		5F31388D2014479200D85E9C /* Checklist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checklist.swift; sourceTree = "<group>"; };
-		5F31388F201464FC00D85E9C /* ChecklistCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistCell.swift; sourceTree = "<group>"; };
 		5F313890201464FC00D85E9C /* ChecklistCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChecklistCell.xib; sourceTree = "<group>"; };
 		5F5292DD2011B0EB0049AD7A /* ChecklistItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistItemCell.swift; sourceTree = "<group>"; };
 		5F5292DE2011B0EB0049AD7A /* ChecklistItemCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChecklistItemCell.xib; sourceTree = "<group>"; };
+		5F610DE8201660D000560F41 /* IconPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPickerViewController.swift; sourceTree = "<group>"; };
+		5F610DEA20166E1300560F41 /* IconCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconCell.swift; sourceTree = "<group>"; };
+		5F610DEB20166E1300560F41 /* IconCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IconCell.xib; sourceTree = "<group>"; };
 		5F7B428720158DEA00A9842E /* ListDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDetailViewController.swift; sourceTree = "<group>"; };
 		5F7B42892015CB0400A9842E /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -97,10 +101,11 @@
 		5F31388B201444ED00D85E9C /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				5F31388F201464FC00D85E9C /* ChecklistCell.swift */,
 				5F313890201464FC00D85E9C /* ChecklistCell.xib */,
 				5F5292DD2011B0EB0049AD7A /* ChecklistItemCell.swift */,
 				5F5292DE2011B0EB0049AD7A /* ChecklistItemCell.xib */,
+				5F610DEA20166E1300560F41 /* IconCell.swift */,
+				5F610DEB20166E1300560F41 /* IconCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -112,6 +117,7 @@
 				5F14CD47200E63A600873E48 /* ChecklistViewController.swift */,
 				5F3138862013E5A200D85E9C /* ItemDetailViewController.swift */,
 				5F7B428720158DEA00A9842E /* ListDetailViewController.swift */,
+				5F610DE8201660D000560F41 /* IconPickerViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -185,6 +191,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F610DED20166E1300560F41 /* IconCell.xib in Resources */,
 				5F14CD50200E63A700873E48 /* LaunchScreen.storyboard in Resources */,
 				5F14CD4D200E63A700873E48 /* Assets.xcassets in Resources */,
 				5F14CD4B200E63A600873E48 /* Main.storyboard in Resources */,
@@ -200,11 +207,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F313891201464FC00D85E9C /* ChecklistCell.swift in Sources */,
 				5F5292DF2011B0EB0049AD7A /* ChecklistItemCell.swift in Sources */,
 				5F14CD48200E63A600873E48 /* ChecklistViewController.swift in Sources */,
 				5F313889201437BB00D85E9C /* AllListsViewController.swift in Sources */,
+				5F610DEC20166E1300560F41 /* IconCell.swift in Sources */,
 				5F3138872013E5A200D85E9C /* ItemDetailViewController.swift in Sources */,
+				5F610DE9201660D000560F41 /* IconPickerViewController.swift in Sources */,
 				5F7B428A2015CB0400A9842E /* DataModel.swift in Sources */,
 				5F14CD58200E7F4900873E48 /* ChecklistItem.swift in Sources */,
 				5F7B428820158DEA00A9842E /* ListDetailViewController.swift in Sources */,

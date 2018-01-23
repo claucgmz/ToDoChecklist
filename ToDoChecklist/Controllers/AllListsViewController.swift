@@ -43,7 +43,7 @@ extension AllListsViewController {
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "ChecklistCell") as? ChecklistCell
+    let cell = tableView.dequeueReusableCell(withIdentifier: "ChecklistCell")
     let checklist = dataModel?.lists[indexPath.row]
     
     if let checklistCell = cell {
@@ -60,6 +60,10 @@ extension AllListsViewController {
         checklistCell.detailTextLabel?.text = "\(totalItemsUnchecked ?? 0 ) unchecked"
       }
       
+      if let iconName = checklist?.iconName {
+        checklistCell.imageView?.image = UIImage(named: iconName)
+      }
+
       return checklistCell
     }
     
@@ -91,7 +95,7 @@ extension AllListsViewController {
     else if segue.identifier == "EditChecklist" {
       let controller = segue.destination as! ListDetailViewController
       controller.delegate = self
-      if let indexPath = tableView.indexPath(for: sender as! ChecklistCell) {
+      if let indexPath = tableView.indexPath(for: sender as! UITableViewCell) {
         controller.checklistToEdit = dataModel?.lists[indexPath.row]
       }
     }

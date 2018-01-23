@@ -10,6 +10,7 @@ import Foundation
 
 class Checklist: NSObject, Codable {
   var name = ""
+  var iconName = "No Icon"
   var items = [ChecklistItem]()
   
   func countUncheckedItems() -> Int {
